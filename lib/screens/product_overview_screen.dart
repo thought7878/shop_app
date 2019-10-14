@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:udemy_shop_app/providers/products.dart';
+import '../providers/product.dart';
+import '../providers/products.dart';
 import '../widgets/product_item.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
@@ -16,7 +17,10 @@ class ProductOverviewScreen extends StatelessWidget {
       body: GridView.builder(
         padding: const EdgeInsets.all(6),
         itemCount: items.length,
-        itemBuilder: (ctx, i) => ProductItem(items[i]),
+        itemBuilder: (ctx, i) => ChangeNotifierProvider(
+          builder: (ctx) => items[i],
+          child: ProductItem(),
+        ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 3 / 2,

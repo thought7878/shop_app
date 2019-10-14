@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:udemy_shop_app/models/product.dart';
+
+import 'product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
