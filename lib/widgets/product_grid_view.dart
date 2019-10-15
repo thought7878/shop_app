@@ -15,6 +15,7 @@ class ProductGridView extends StatelessWidget {
     final productsContainer = Provider.of<Products>(context);
     final items =
         isFavorite ? productsContainer.favoriteItems : productsContainer.items;
+
     //
     return GridView.builder(
       padding: const EdgeInsets.all(6),
