@@ -10,6 +10,7 @@ class CartContainer with ChangeNotifier {
 
   void addItem(String id, String title, double price) {
     if (_items.containsKey(id)) {
+      //existed update
       _items.update(
         id,
         (existingItem) => CartItem(
@@ -20,6 +21,7 @@ class CartContainer with ChangeNotifier {
         ),
       );
     } else {
+      // not add
       _items.putIfAbsent(
         id,
         () => CartItem(id: id, title: title, price: price, quantity: 1),
@@ -29,7 +31,9 @@ class CartContainer with ChangeNotifier {
 
   void removeItem(String id) {
     if (_items.containsKey(id)) {
-      //
+      _items.remove(id);
     }
   }
+
+  // void updateQuantity()
 }
