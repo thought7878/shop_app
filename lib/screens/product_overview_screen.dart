@@ -1,34 +1,51 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/product.dart';
-import '../providers/products.dart';
-import '../widgets/product_item.dart';
+import 'dart:developer';
 
-class ProductOverviewScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:udemy_shop_app/widgets/product_grid_view.dart';
+
+enum FilterOptions { Favorite, All }
+
+class ProductOverviewScreen extends StatefulWidget {
+  @override
+  _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
+}
+
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  bool isFavorite = false;
+
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
-    final items = productsData.items;
+    // final productsData = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('ProductOverviewScreen'),
         elevation: 0.0,
+        actions: <Widget>[
+          PopupMenuButton<FilterOptions>(
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Text('Only favorites'),
+                value: FilterOptions.Favorite,
+              ),
+              PopupMenuItem(
+                child: Text('Show all'),
+                value: FilterOptions.All,
+              )
+            ],
+            onSelected: (val) {
+              setState(() {
+                if (val == FilterOptions.Favorite) {
+                  isFavorite = true;
+                } else {
+                  isFavorite = false;
+                }
+              });
+            },
+          )
+        ],
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(6),
-        itemCount: items.length,
-        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-          // builder: (ctx) => items[i],
-          value: items[i],
-          child: ProductItem(),
-        ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-      ),
+      body: ProductGridView(isFavorite),
     );
   }
 }
