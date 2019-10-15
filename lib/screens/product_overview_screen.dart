@@ -17,8 +17,9 @@ class ProductOverviewScreen extends StatelessWidget {
       body: GridView.builder(
         padding: const EdgeInsets.all(6),
         itemCount: items.length,
-        itemBuilder: (ctx, i) => ChangeNotifierProvider(
-          builder: (ctx) => items[i],
+        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+          // builder: (ctx) => items[i],
+          value: items[i],
           child: ProductItem(),
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
