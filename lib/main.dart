@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udemy_shop_app/providers/cart_container.dart';
+import 'package:udemy_shop_app/screens/cart_screen.dart';
 import './providers/products.dart';
 import './screens/product_detail_screen.dart';
 import 'screens/product_overview_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => ProductOverviewScreen(),
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
