@@ -8,6 +8,10 @@ class CartContainer with ChangeNotifier {
     return {..._items};
   }
 
+  int get itemCount {
+    return _items.length;
+  }
+
   void addItem(String id, String title, double price) {
     if (_items.containsKey(id)) {
       //existed update
@@ -27,6 +31,7 @@ class CartContainer with ChangeNotifier {
         () => CartItem(id: id, title: title, price: price, quantity: 1),
       );
     }
+    notifyListeners();
   }
 
   void removeItem(String id) {

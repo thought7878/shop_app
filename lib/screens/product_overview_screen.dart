@@ -1,6 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:udemy_shop_app/providers/cart_container.dart';
+import 'package:udemy_shop_app/widgets/badge.dart';
 import 'package:udemy_shop_app/widgets/product_grid_view.dart';
 
 enum FilterOptions { Favorite, All }
@@ -42,7 +43,18 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 }
               });
             },
-          )
+          ),
+          Consumer<CartContainer>(
+            builder: (ctx, cartContainer, ch) => Badge(
+              value: cartContainer.itemCount.toString(),
+              child: ch,
+              color: Colors.red,
+            ),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
       body: ProductGridView(isFavorite),
