@@ -23,6 +23,19 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         title: Text('ProductOverviewScreen'),
         elevation: 0.0,
         actions: <Widget>[
+          Consumer<CartContainer>(
+            builder: (ctx, cartContainer, ch) => Badge(
+              value: cartContainer.itemCount.toString(),
+              child: ch,
+              color: Colors.red,
+            ),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
           PopupMenuButton<FilterOptions>(
             icon: Icon(Icons.more_vert),
             itemBuilder: (_) => [
@@ -44,19 +57,6 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 }
               });
             },
-          ),
-          Consumer<CartContainer>(
-            builder: (ctx, cartContainer, ch) => Badge(
-              value: cartContainer.itemCount.toString(),
-              child: ch,
-              color: Colors.red,
-            ),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                Navigator.of(context).pushNamed(CartScreen.routeName);
-              },
-            ),
           ),
         ],
       ),

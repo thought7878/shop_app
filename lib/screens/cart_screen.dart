@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udemy_shop_app/providers/cart_container.dart';
+import 'package:udemy_shop_app/widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
@@ -30,7 +31,7 @@ class CartScreen extends StatelessWidget {
                   Spacer(),
                   Chip(
                     label: Text(
-                      '\$${cartContainer.totalAmount}',
+                      '\$${cartContainer.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
                           color:
                               Theme.of(context).primaryTextTheme.title.color),
@@ -47,7 +48,15 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: cartContainer.itemCount,
+              itemBuilder: (ctx, i) =>
+                  // TODO improve
+                  CartItem(cartContainer.items.values.toList()[i]),
+            ),
+          ),
         ],
       ),
     );
