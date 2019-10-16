@@ -45,6 +45,7 @@ class CartContainer with ChangeNotifier {
   void removeItem(String id) {
     if (_items.containsKey(id)) {
       _items.remove(id);
+      notifyListeners();
     }
   }
 

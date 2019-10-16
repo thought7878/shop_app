@@ -8,7 +8,6 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartContainer = Provider.of<CartContainer>(context);
     //
     return Scaffold(
       appBar: AppBar(
@@ -30,11 +29,16 @@ class CartScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   Chip(
-                    label: Text(
-                      '\$${cartContainer.totalAmount.toStringAsFixed(2)}',
-                      style: TextStyle(
-                          color:
-                              Theme.of(context).primaryTextTheme.title.color),
+                    label: Consumer<CartContainer>(
+                      builder: (ctx, cartContainer, child) {
+                        return Text(
+                          '\$${cartContainer.totalAmount.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).primaryTextTheme.title.color,
+                          ),
+                        );
+                      },
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
@@ -50,11 +54,14 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: cartContainer.itemCount,
-              itemBuilder: (ctx, i) =>
-                  // TODO improve
-                  CartItem(cartContainer.items.values.toList()[i]),
+            child: Consumer<CartContainer>(
+              builder: (ctx, cartContainer, child) {
+                final cartItems = cartContainer.items.values.toList();
+                return ListView.builder(
+                  itemCount: cartContainer.itemCount,
+                  itemBuilder: (ctx, i) => CartItem(cartItems[i]),
+                );
+              },
             ),
           ),
         ],
