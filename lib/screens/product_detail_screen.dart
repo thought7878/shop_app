@@ -19,6 +19,34 @@ class ProductDetailScreen extends StatelessWidget {
         title: Text(product.title),
         elevation: 0.0,
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 200,
+              width: double.infinity,
+              child: Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              product.title,
+              style: Theme.of(context).textTheme.title,
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                product.description * 100,
+                // textAlign: TextAlign.center,
+                // softWrap: true,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
