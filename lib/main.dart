@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.green,
-          fontFamily: 'Lato',
-        ),
+            primarySwatch: Colors.green,
+            fontFamily: 'Lato',
+            cardTheme: CardTheme(elevation: 0)),
         initialRoute: '/',
         routes: {
           '/': (ctx) => ProductOverviewScreen(),
