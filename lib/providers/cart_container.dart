@@ -49,6 +49,25 @@ class CartContainer with ChangeNotifier {
     }
   }
 
+  void undoAddedItem(String id) {
+    if (_items.containsKey(id)) {
+      if (_items[id].quantity > 1) {
+        _items.update(
+          id,
+          (oldItem) => CartItem(
+            id: oldItem.id,
+            title: oldItem.title,
+            price: oldItem.price,
+            quantity: oldItem.quantity - 1,
+          ),
+        );
+      } else {
+        _items.remove(id);
+      }
+      notifyListeners();
+    }
+  }
+
   void clear() {
     _items = {};
     notifyListeners();
