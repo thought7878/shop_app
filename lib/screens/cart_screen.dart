@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udemy_shop_app/providers/cart_container.dart';
 import 'package:udemy_shop_app/providers/order_container.dart';
+import 'package:udemy_shop_app/screens/order_screen.dart';
 import 'package:udemy_shop_app/widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -57,6 +58,7 @@ class CartScreen extends StatelessWidget {
                         cartContainer.totalAmount,
                       );
                       cartContainer.clear();
+                      Navigator.of(context).pushNamed(OrderScreen.routeName);
                     },
                   )
                 ],
