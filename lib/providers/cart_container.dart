@@ -49,5 +49,10 @@ class CartContainer with ChangeNotifier {
     }
   }
 
+  void clear() {
+    _items = {};
+    notifyListeners();
+  }
+
   // void updateQuantity()
 }
