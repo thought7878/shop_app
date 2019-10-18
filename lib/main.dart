@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:udemy_shop_app/providers/cart_container.dart';
 import 'package:udemy_shop_app/providers/order_container.dart';
 import 'package:udemy_shop_app/screens/cart_screen.dart';
+import 'package:udemy_shop_app/screens/edit_product_screen.dart';
 import 'package:udemy_shop_app/screens/order_screen.dart';
 import 'package:udemy_shop_app/screens/user_products_screen.dart';
 import './providers/products.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           CartScreen.routeName: (ctx) => CartScreen(),
           OrderScreen.routeName: (ctx) => OrderScreen(),
           UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+          EditProductScreen.routeName: (ctx) => EditProductScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
