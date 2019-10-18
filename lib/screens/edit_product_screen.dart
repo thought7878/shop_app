@@ -99,6 +99,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 focusNode: _priceFocusNode,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a price!';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please enter a valid number!';
+                  }
+                  if (double.parse(value) <= 0) {
+                    return 'Please enter a number greater than zero!';
+                  }
+                  return null;
+                },
                 onFieldSubmitted: (val) {
                   FocusScope.of(context).requestFocus(_descriptionFocusNode);
                 },
@@ -118,6 +130,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 // textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.multiline,
                 focusNode: _descriptionFocusNode,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a description!';
+                  }
+                  if (value.length < 5) {
+                    return 'Should be at least 5 charactors.';
+                  }
+                  return null;
+                },
                 onSaved: (value) {
                   _submittingProduct = Product(
                     id: _submittingProduct.id,
@@ -154,6 +175,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
                       focusNode: _imageUrlFocusNode,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter a image url.';
+                        }
+                        if (!value.startsWith('http') &&
+                            !value.startsWith('https')) {
+                          return 'Please enter a valid url.';
+                        }
+                        return null;
+                      },
                       onFieldSubmitted: (val) {
                         _saveForm();
                       },
