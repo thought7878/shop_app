@@ -41,6 +41,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _saveForm() {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
+    }
     _form.currentState.save();
     print(_submittingProduct.title);
     print(_submittingProduct.price);
@@ -71,12 +75,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'Title'),
                 textInputAction: TextInputAction.next,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please provide a title!';
+                  }
+                  return null;
+                },
                 onFieldSubmitted: (val) {
                   FocusScope.of(context).requestFocus(_priceFocusNode);
-                  log('onFieldSubmitted');
                 },
                 onSaved: (value) {
-                  log('onSaved');
                   _submittingProduct = Product(
                     id: _submittingProduct.id,
                     title: value,
