@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udemy_shop_app/providers/product.dart';
@@ -19,11 +17,37 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _form = GlobalKey<FormState>();
   var _submittingProduct =
       Product(id: null, title: '', description: '', price: 0, imageUrl: '');
+  var initValue = {
+    "title": "",
+    "description": "",
+    "price": "",
+    "imageUrl": "",
+  };
+  var isInit = true;
 
   @override
   void initState() {
     super.initState();
     _imageUrlFocusNode.addListener(_updateImage);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (isInit) {
+      final productId = ModalRoute.of(context).settings.arguments as String;
+      if (productId != null) {
+        _submittingProduct = Provider.of<Products>(context).findById(productId);
+        initValue = {
+          "title": _submittingProduct.title,
+          "description": _submittingProduct.description,
+          "price": _submittingProduct.price.toString(),
+          // "imageUrl": _submittingProduct.imageUrl,
+        };
+        _imageUrlController.text = _submittingProduct.imageUrl;
+      }
+      isInit = false;
+    }
   }
 
   @override
@@ -48,8 +72,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _form.currentState.save();
-    Provider.of<Products>(context, listen: false)
-        .addProduct(_submittingProduct);
+    if (_submittingProduct.id != null) {
+      //update
+      Provider.of<Products>(context, listen: false)
+          .updateProduct(_submittingProduct.id, _submittingProduct);
+    } else {
+      //add
+      Provider.of<Products>(context, listen: false)
+          .addProduct(_submittingProduct);
+    }
     Navigator.of(context).pop();
   }
 
@@ -76,6 +107,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'Title'),
                 textInputAction: TextInputAction.next,
+                initialValue: initValue['title'],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please provide a title!';
@@ -92,10 +124,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     description: _submittingProduct.description,
                     price: _submittingProduct.price,
                     imageUrl: _submittingProduct.imageUrl,
+                    isFavorite: _submittingProduct.isFavorite,
                   );
                 },
               ),
               TextFormField(
+                initialValue: initValue['price'],
                 decoration: InputDecoration(labelText: 'Price'),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
@@ -122,10 +156,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     description: _submittingProduct.description,
                     price: double.parse(value),
                     imageUrl: _submittingProduct.imageUrl,
+                    isFavorite: _submittingProduct.isFavorite,
                   );
                 },
               ),
               TextFormField(
+                initialValue: initValue['description'],
                 decoration: InputDecoration(labelText: 'Description'),
                 maxLines: 3,
                 // textInputAction: TextInputAction.next,
@@ -171,6 +207,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      // initialValue: initValue[' '],
                       decoration: InputDecoration(labelText: 'Image Url'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
@@ -196,6 +233,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           description: _submittingProduct.description,
                           price: _submittingProduct.price,
                           imageUrl: value,
+                          isFavorite: _submittingProduct.isFavorite,
                         );
                       },
                     ),
